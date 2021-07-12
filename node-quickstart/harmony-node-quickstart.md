@@ -1,6 +1,8 @@
 # Digital Ocean - Harmony Node Quickstart Guide
 ##### This is a sample markdown file for you to use to make a Quickstart Guide for yourself.
 
+We like to use the editor [located over here](https://markdown-editor.github.io/ "located over here"). Copy the contents of our markdown file to the left side of the editor and you can then see a live view on the right side as you edit your file. When finished copy the contents back and save in your github.
+
 ### Before starting we're going to edit one file to allow passwordless sudo access
 
 This text is used to describe stuff before a code window
