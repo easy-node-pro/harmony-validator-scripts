@@ -1,6 +1,9 @@
 # harmony-validator-scripts
 Scripts that go with our [Slugom.ONE Harmony ONE Validator Guide](https://guides.slugomcrypto.com "Slugom.ONE Harmony ONE Validator Guide") to help you more easily setup your node.
 
+### node-quickstart
+This is a template to use to build a markdown file to use when setting up nodes in the future.
+
 ### Create a stats.sh script the easy way
 This will download and install your stats.sh script to use later to check your block status. Choose only the shard you're going to run on below:
 
