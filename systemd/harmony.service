@@ -1,0 +1,18 @@
+[Unit]
+Description=Harmony daemon
+After=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=serviceharmony
+WorkingDirectory=/home/serviceharmony/harmony
+ExecStart=/home/serviceharmony/harmony/harmony -c harmony.conf
+SyslogIdentifier=harmony
+StartLimitInterval=0
+LimitNOFILE=65536
+LimitNPROC=65536
+
+[Install]
+WantedBy=multi-user.target
