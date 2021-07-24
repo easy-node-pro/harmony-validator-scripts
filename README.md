@@ -1,5 +1,5 @@
 # harmony-validator-scripts
-Created by Patrick @ [Slugom.ONE](http://Slugom.ONE "Slugom.ONE").
+Created by Patrick @ [EasyNode.ONE](http://EasyNode.ONE "EasyNode.ONE").
 
 Scripts that go with our [Slugom.ONE Harmony ONE Validator Guide](https://guides.slugomcrypto.com "Slugom.ONE Harmony ONE Validator Guide") to help you more easily setup your node.
 
