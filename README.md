@@ -1,7 +1,7 @@
-# EasyNode.ONE Presents "The Slugom.ONE Admin Companion Guide Repository"
+# EasyNode.ONE Presents "The EasyNode.ONE Admin Companion Guide Repository"
 Created by Patrick @ [EasyNode.ONE](http://EasyNode.ONE "EasyNode.ONE").
 
-Scripts that go with our [Slugom.ONE Harmony ONE Validator Guide](https://guides.slugomcrypto.com "Slugom.ONE Harmony ONE Validator Guide") to help you more easily setup your node.
+Scripts that go with our [EasyNode.ONE Harmony ONE Validator Guide](https://guides.easynode.one "EasyNode.ONE Harmony ONE Validator Guide") to help you more easily setup your node.
 
 ### node-quickstart
 This is a template to use to build a markdown file to use when setting up nodes in the future.

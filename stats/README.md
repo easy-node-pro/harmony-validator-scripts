@@ -9,3 +9,7 @@ wget https://raw.githubusercontent.com/slugom-crypto/harmony-validator-scripts/m
 wget https://raw.githubusercontent.com/slugom-crypto/harmony-validator-scripts/main/stats/shard_2.sh && mv shard_2.sh stats.sh && chmod +x stats.sh
 
 wget https://raw.githubusercontent.com/slugom-crypto/harmony-validator-scripts/main/stats/shard_3.sh && mv shard_3.sh stats.sh && chmod +x stats.sh
+
+### Customizations
+- Current scripts in this repo will only work in the same folder with your harmony binary file.
+- Feel free to upgrade the contents of the script for your environment so they can run from any location.
