@@ -1,8 +1,14 @@
 # Python Example - Validator Info
 
 - Update the wallet address to be yours
-- Install requirements ```pip3 install -r requirements.txt```
-- Run app ```python3 validator_info.py```
+- Install requirements 
+```
+pip3 install -r requirements.txt
+```
+- Run app 
+```
+python3 validator_info.py
+```
 
 You'll get a full print out of all your validator information in json to utililze as you'd like.
 
