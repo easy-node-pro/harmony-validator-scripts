@@ -19,13 +19,13 @@ result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlin
 local_data_shard = json.loads(result_local_shard.stdout)
 
 def getDBSize(ourShard) -> str:
-    harmonyDBSize = subprocess.getoutput(f"du -h {hmyPath}/harmony_db_{ourShard}")
+    harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
     harmonyDBSize = harmonyDBSize.rstrip('\t')
     return harmonyDBSize[:-41]
 
 def shardStats(ourShard) -> str:
     ourUptime = subprocess.getoutput("uptime")
-    ourVersion = subprocess.getoutput(f"{harmonyFolder} -V")
+    ourVersion = subprocess.getoutput(f"{harmonyPath} -V")
     dbZeroSize = getDBSize('0')
     if ourShard == "0":
         print(f"""
@@ -58,38 +58,3 @@ Remote Server - Epoch {remote_data_shard['result']['shard-chain-header']['epoch'
     """)
 
 shardStats(ourShard)
-
-print(f"""
-Local Server Stats, Shard {ourShard}:
-Beacon Chain Header:
-Epoch: {local_data_shard['result']['beacon-chain-header']['epoch']}
-Block: {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])}
-Shard: {local_data_shard['result']['beacon-chain-header']['shardID']}
-
-Shard Chain Header:
-Epoch: {local_data_shard['result']['shard-chain-header']['epoch']}
-Block: {literal_eval(local_data_shard['result']['shard-chain-header']['number'])}
-Shard: {local_data_shard['result']['shard-chain-header']['shardID']}
-
-Remote Blockchain Stats, Shard {ourShard}:
-Beacon Chain Header:
-Epoch: {remote_data_shard['result']['beacon-chain-header']['epoch']}
-Block: {literal_eval(remote_data_shard['result']['beacon-chain-header']['number'])}
-Shard: {remote_data_shard['result']['beacon-chain-header']['shardID']}
-
-Shard Chain Header:
-Epoch: {remote_data_shard['result']['shard-chain-header']['epoch']}
-Block: {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}
-Shard: {remote_data_shard['result']['shard-chain-header']['shardID']}
-
-Remote Blockchain Stats, Shard 0:
-Beacon Chain Header:
-Epoch: {remote_data_shard_0['result']['beacon-chain-header']['epoch']}
-Block: {literal_eval(remote_data_shard_0['result']['beacon-chain-header']['number'])}
-Shard: {remote_data_shard_0['result']['beacon-chain-header']['shardID']}
-
-Shard Chain Header:
-Epoch: {remote_data_shard_0['result']['shard-chain-header']['epoch']}
-Block: {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
-Shard: {remote_data_shard_0['result']['shard-chain-header']['shardID']}
-""")
