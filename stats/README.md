@@ -1,12 +1,13 @@
 # stats 
 ### This contains our versions of the stats.py script in our guide.
-Setup the stats.py file on your system. 
-
-Add your shard # into the script & set the path if needed.
-- Edit ourShard & harmonyPath in the script on your server after downloading.
-
-Run the script with:
-- `python3 stats.py`
+Pull the stats script onto your server with this command in your harmony directory:
+- `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/stats.py`
 
 ### Customizations
-- This script assumes you're using a ~/harmony folder, if not modify the path in the script
+Edit the script, update the variables section for your system:
+- ourShard = your shard
+- harmonyFolder = your harmony folder, we suggest ~/harmony but some may use ~/
+
+### Run stats
+Run the script with:
+- `python3 stats.py`
