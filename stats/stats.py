@@ -6,9 +6,9 @@ from ast import literal_eval
 # set these two settings here
 ourShard = 3
 harmonyFolder = '/home/serviceharmony/harmony'
-countTrim = len(harmonyFolder) + 13
 
 # gathering information
+countTrim = len(harmonyFolder) + 13
 remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
 result_remote_shard_0 = run(remote_shard_0, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 remote_data_shard_0 = json.loads(result_remote_shard_0.stdout)
