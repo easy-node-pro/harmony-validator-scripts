@@ -5,16 +5,14 @@ from ast import literal_eval
 
 ourShard = 3
 harmonyFolder = '/home/serviceharmony/harmony'
-hmyPath = '/home/serviceharmony/harmony/hmy'
-harmonyPath = '/home/serviceharmony/harmony/harmony'
 
-remote_shard_0 = [hmyPath, 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
+remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
 result_remote_shard_0 = run(remote_shard_0, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 remote_data_shard_0 = json.loads(result_remote_shard_0.stdout)
-remote_shard = [hmyPath, 'blockchain', 'latest-headers', f'--node=https://api.s{ourShard}.t.hmny.io']
+remote_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', f'--node=https://api.s{ourShard}.t.hmny.io']
 result_remote_shard = run(remote_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 remote_data_shard = json.loads(result_remote_shard.stdout)
-local_shard = [hmyPath, 'blockchain', 'latest-headers']
+local_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers']
 result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 local_data_shard = json.loads(result_local_shard.stdout)
 
@@ -25,7 +23,7 @@ def getDBSize(ourShard) -> str:
 
 def shardStats(ourShard) -> str:
     ourUptime = subprocess.getoutput("uptime")
-    ourVersion = subprocess.getoutput(f"{harmonyPath} -V")
+    ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
     dbZeroSize = getDBSize('0')
     if ourShard == "0":
         print(f"""
