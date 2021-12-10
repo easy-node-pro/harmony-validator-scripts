@@ -12,19 +12,9 @@ This is a template to use to build a markdown file to use when setting up nodes 
 This contains a copy of our rclone file configured for any node. To be used for remote installations.
 
 ### stats
-This contains our versions of the stats.sh script in our guide. 
+This contains our version of a stats python script.
 
-The commands below will download and install our stats.sh script to use later to check your stats including cpu, disk, harmony version & block status. 
-
-Choose only the shard you're going to run on below 0-3:
-
-`wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/shard_0.sh && mv shard_0.sh stats.sh && chmod +x stats.sh`
-
-`wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/shard_1.sh && mv shard_1.sh stats.sh && chmod +x stats.sh`
-
-`wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/shard_2.sh && mv shard_2.sh stats.sh && chmod +x stats.sh`
-
-`wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/shard_3.sh && mv shard_3.sh stats.sh && chmod +x stats.sh`
+We ditched using ./stats.sh for `python3 stats.py` now - Pull it down, edit your shard # if needed, and give stats a try!
 
 ### systemd 
 This contains our systemd service file pre-configured for the user serviceharmony. To be used for remote installations.
