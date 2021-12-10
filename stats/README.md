@@ -1,6 +1,6 @@
 # stats 
 ### This contains our versions of the stats.py script in our guide.
-Pull the stats script onto your server with this command in your harmony directory:
+Pull the stats script onto your server with this command:
 - `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/stats.py`
 
 ### Customizations
