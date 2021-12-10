@@ -6,6 +6,7 @@ from ast import literal_eval
 # set these two settings here
 ourShard = 3
 harmonyFolder = '/home/serviceharmony/harmony'
+countTrim = len(harmonyFolder) + 13
 
 # gathering information
 remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
@@ -22,7 +23,7 @@ local_data_shard = json.loads(result_local_shard.stdout)
 def getDBSize(ourShard) -> str:
     harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
     harmonyDBSize = harmonyDBSize.rstrip('\t')
-    return harmonyDBSize[:-41]
+    return harmonyDBSize[:-countTrim]
 
 # get shard stats
 def shardStats(ourShard) -> str:
