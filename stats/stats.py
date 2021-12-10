@@ -4,6 +4,7 @@ from subprocess import Popen, PIPE, run
 from ast import literal_eval
 
 ourShard = 3
+harmonyFolder = '/home/serviceharmony/harmony'
 hmyPath = '/home/serviceharmony/harmony/hmy'
 harmonyPath = '/home/serviceharmony/harmony/harmony'
 
@@ -24,7 +25,7 @@ def getDBSize(ourShard) -> str:
 
 def shardStats(ourShard) -> str:
     ourUptime = subprocess.getoutput("uptime")
-    ourVersion = subprocess.getoutput(f"{harmonyPath} -V")
+    ourVersion = subprocess.getoutput(f"{harmonyFolder} -V")
     dbZeroSize = getDBSize('0')
     if ourShard == "0":
         print(f"""
