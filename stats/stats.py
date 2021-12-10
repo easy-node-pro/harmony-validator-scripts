@@ -3,9 +3,11 @@ import subprocess
 from subprocess import Popen, PIPE, run
 from ast import literal_eval
 
+# set these two settings here
 ourShard = 3
 harmonyFolder = '/home/serviceharmony/harmony'
 
+# gathering information
 remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
 result_remote_shard_0 = run(remote_shard_0, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 remote_data_shard_0 = json.loads(result_remote_shard_0.stdout)
@@ -16,11 +18,13 @@ local_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers']
 result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 local_data_shard = json.loads(result_local_shard.stdout)
 
+# get database sizes
 def getDBSize(ourShard) -> str:
     harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
     harmonyDBSize = harmonyDBSize.rstrip('\t')
     return harmonyDBSize[:-41]
 
+# get shard stats
 def shardStats(ourShard) -> str:
     ourUptime = subprocess.getoutput("uptime")
     ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
@@ -59,4 +63,5 @@ if ourShard > 0:
 ***
     """)
 
+# run it all
 shardStats(ourShard)
