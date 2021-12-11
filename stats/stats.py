@@ -39,7 +39,7 @@ def shardStats(ourShard) -> str:
     else:
         print(f"""
 * Uptime :: {ourUptime}
-*
+
 * Harmony DB 0 Size  ::  {dbZeroSize}
         """)
         if ourShard > 0:
@@ -47,9 +47,7 @@ def shardStats(ourShard) -> str:
 * Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard))}
             """)
         print(f"""
-*
 * {ourVersion}
-*
 ***
         """)
 
