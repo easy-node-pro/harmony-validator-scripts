@@ -34,6 +34,7 @@ def shardStats(ourShard) -> str:
         print(f"""
 * Uptime :: {ourUptime}
 * Harmony DB 0 Size  ::  {dbZeroSize}
+*
 * {ourVersion}
 ***
         """)
