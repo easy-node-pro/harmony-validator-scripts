@@ -41,7 +41,12 @@ def shardStats(ourShard) -> str:
 * Uptime :: {ourUptime}
 *
 * Harmony DB 0 Size  ::  {dbZeroSize}
+        """)
+        if ourShard > 0:
+            print(f"""
 * Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard))}
+            """)
+        print(f"""
 *
 * {ourVersion}
 *
