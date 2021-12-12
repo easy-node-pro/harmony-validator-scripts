@@ -1,6 +1,5 @@
 import json
 import socket
-import subprocess
 import requests
 import os
 import dotenv
@@ -13,11 +12,11 @@ ourShard = 3
 harmonyFolder = '/home/serviceharmony/harmony'
 
 # will use easynode.env file for VSTATS_BOT token, or add your token on line 20 below in the ''
-if os.path.exists('~/.easynode.env'):
-    load_dotenv('~/.easynode.env')
+if os.path.exists('/home/serviceharmony/.easynode.env'):
+    load_dotenv('/home/serviceharmony/.easynode.env')
     vstats_token = environ.get('VSTATS_BOT')
 else:
-    vstats_token = ''
+    vstats_token = 'token'
 
 # get remote stats for shard 0, then the #'d shard, if it's 0 just make it the same.
 remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
@@ -49,52 +48,10 @@ if ourShard > 0:
 
 # if lower blocks on shard 0
 if shard_0_blocks <= -10 or shard_0_blocks >= 10:
-    print(f"""
-***
-* Local Server Not In Sync With Blockchain on Shard 0 !!!
-* Send Notification here! Result 1: {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])} Result 2: {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
-***
-    """)
-    # send webhook to vStats bot
     sendWebhook('Shard 0 Behind', f"From your server {socket.gethostname()}\nLocal Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} Block: {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])}\nRemote Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} Block: {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}\nOff by {shard_0_blocks} blocks.")
-else:
-    print(f"""
-***
-* Your server is in sync on shard 0.
-***
-    """)
 
 # only if not on shard 0.
 if ourShard > 0:
 # if lower blocks on shard 3
     if shard_n_blocks <= -10 or shard_n_blocks >= 10:
-        print(f"""
-***
-* Local Server Not In Sync With Blockchain on Shard {ourShard}!!!
-* Send Notification here! Result 1: {literal_eval(local_data_shard['result']['shard-chain-header']['number'])} Result 2: {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}
-***
-        """)
         sendWebhook(f'Shard {ourShard} Behind', f"From your server {socket.gethostname()}\nLocal Epoch   {local_data_shard['result']['shard-chain-header']['epoch']} Block: {literal_eval(local_data_shard['result']['shard-chain-header']['number'])}\nRemote Epoch {remote_data_shard['result']['shard-chain-header']['epoch']} Block: {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}\nOff by {shard_n_blocks} blocks.")
-    else:
-        print(f"""
-***
-* Your server is in sync on shard 3.
-***
-        """)
-
-
-print(f"""
-***
-* Shard 0 Sync Status:
-* Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} - Shard {local_data_shard['result']['beacon-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])}
-* Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
-***
-""")
-if ourShard > 0:
-    print(f"""
-***
-* Shard {ourShard} Sync Status:
-* Local Server  - Epoch {local_data_shard['result']['shard-chain-header']['epoch']} - Shard {local_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['shard-chain-header']['number'])}
-* Remote Server - Epoch {remote_data_shard['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}
-***
-    """)
