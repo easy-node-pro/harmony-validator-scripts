@@ -10,3 +10,4 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 # Minute   Hour   Day of Month       Month          Day of Week        User      Command
 # (0-59)  (0-23)     (1-31)    (1-12 or Jan-Dec)  (0-6 or Sun-Sat)
   *         *          *              *                 *              serviceharmony python3 /home/serviceharmony/alert.py
+  
