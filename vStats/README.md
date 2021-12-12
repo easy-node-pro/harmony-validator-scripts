@@ -21,6 +21,9 @@ If you do not use validatortoolbox edit your token into line 20 in place of `tok
 
 ### Setup cron job
 We've included an example cron file for you to download and customize:
-- `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/vStats/validator-alert`
+
+```
+wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/vStats/validator-alert
+```
 
 Update your username and path to the alert.py file. Then as root copy this file into `/etc/cron.d` to start checking every minute.
