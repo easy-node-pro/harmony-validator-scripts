@@ -23,3 +23,6 @@ This contains our systemd service file pre-configured for the user serviceharmon
 This contains our version of the upgrade_harmony.sh script in our guide. Use the command below in the same directory with your harmony binary to download a copy of our script. Run this when updates to harmony are required by the developers by running `./upgrade_harmony.sh`
 
 `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/upgrade/upgrade_harmony.sh && chmod +x upgrade_harmony.sh`
+
+### vStats
+This contains stuff to supercharge vStats bot, more to come later.
