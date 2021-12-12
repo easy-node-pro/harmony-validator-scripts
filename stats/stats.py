@@ -1,5 +1,6 @@
 import json
 import subprocess
+import os
 from subprocess import Popen, PIPE, run
 from ast import literal_eval
 
@@ -20,7 +21,10 @@ result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlin
 local_data_shard = json.loads(result_local_shard.stdout)
 
 # get database sizes
-def getDBSize(ourShard) -> str:
+def getDBSize(ourShard, harmonyFolder) -> str:
+    checkSymlink = f'du -h {harmonyFolder}/harmony_db_{ourShard}'
+    if os.path.islink(checkSymlink):
+        harmonyFolder = os.path.relpath(checkSymlink)
     harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
     harmonyDBSize = harmonyDBSize.rstrip('\t')
     return harmonyDBSize[:-countTrim]
@@ -29,7 +33,7 @@ def getDBSize(ourShard) -> str:
 def shardStats(ourShard) -> str:
     ourUptime = subprocess.getoutput("uptime")
     ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
-    dbZeroSize = getDBSize('0')
+    dbZeroSize = getDBSize('0', harmonyFolder)
     if ourShard == 0:
         print(f"""
 * Uptime :: {ourUptime}
@@ -43,7 +47,7 @@ def shardStats(ourShard) -> str:
 * Uptime :: {ourUptime}
 *
 * Harmony DB 0 Size  ::  {dbZeroSize}
-* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard))}
+* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard), harmonyFolder)}
 *
 * {ourVersion}
 *
