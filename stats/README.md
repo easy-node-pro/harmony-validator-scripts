@@ -3,6 +3,9 @@
 Pull the stats script onto your server with this command:
 - `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/stats.py`
 
+Install requirements:
+- `pip3 install colorama`
+
 ### Customizations
 Edit the script, update the variables section for your system:
 - ourShard = your shard
