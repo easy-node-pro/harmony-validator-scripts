@@ -1,13 +1,58 @@
 import json
 import subprocess
 import os
+import socket
+import dotenv
+from os import environ
 from subprocess import Popen, PIPE, run
 from ast import literal_eval
+from dotenv import load_dotenv
+from simple_term_menu import TerminalMenu
+from datetime import datetime
 
-# set these two settings here
-ourShard = 3
-harmonyFolder = '/home/serviceharmony/harmony'
+def askYesNo(question: str) -> bool:
+    YesNoAnswer = ""
+    while not YesNoAnswer.startswith(("Y", "N")):
+        YesNoAnswer = input(f"{question}: ").upper()
+    if YesNoAnswer.startswith("Y"):
+        return True
+    return False
 
+def setVar(fileName, keyName, updateName):
+    if environ.get(keyName):
+        dotenv.unset_key(fileName, keyName)
+    dotenv.set_key(fileName, keyName, updateName)
+    return
+
+serverHostName = socket.gethostname()
+userHomeDir = os.path.expanduser("~")
+dotenv_file = f"{userHomeDir}/.easynode.env"
+timeNow = datetime.now()
+
+if os.path.isdir(f"{userHomeDir}/harmony"):
+    harmonyFolder = f"{userHomeDir}/harmony"
+elif os.path.isfile(f"{userHomeDir}/harmony"):
+    harmonyFolder = f"{userHomeDir}"
+
+load_dotenv(dotenv_file)
+if environ.get("SHARD"):
+    ourShard = environ.get("SHARD")
+else:
+    # ask shard and record here
+    os.system("clear")
+    print("***")
+    print("* First Boot - Gathering more information about your server                                 *")
+    print("***")
+    print("* Which shard do you want this node run on?                                                 *")
+    print("***")
+    menuOptions = ["[0] - Shard 0", "[1] - Shard 1", "[2] - Shard 2", "[3] - Shard 3", ]
+    terminal_menu = TerminalMenu(menuOptions, title="* Which Shard will this node operate on? ")
+    ourShard = str(terminal_menu.show())
+    setVar(dotenv_file, "SHARD", ourShard)
+
+if environ.get("NETWORK_SWITCH"):
+    ourNetwork = environ.get("NETWORK_SWITCH")
+   
 # gathering information
 countTrim = len(harmonyFolder) + 13
 remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
@@ -36,39 +81,53 @@ def shardStats(ourShard) -> str:
     dbZeroSize = getDBSize('0', harmonyFolder)
     if ourShard == 0:
         print(f"""
-* Uptime :: {ourUptime}
 * Harmony DB 0 Size  ::  {dbZeroSize}
 *
 * {ourVersion}
+* Uptime :: {ourUptime}
 ***
         """)
     else:
         print(f"""
-* Uptime :: {ourUptime}
 *
 * Harmony DB 0 Size  ::  {dbZeroSize}
 * Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard), harmonyFolder)}
 *
 * {ourVersion}
-*
+* Uptime :: {ourUptime}
 ***
         """)
 
-print(f"""
+# print it out
+
+if int(ourShard) > 0:
+    print(f"""
 ***
+* Current Date & Time: {timeNow}
+*
+***
+* Current Status of our server {serverHostName} currently on Shard {environ.get('SHARD')}:
+*
+* Shard 0 Sync Status:
+* Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} (Always 1 epoch behind Remote Server) - Shard 0 not required on Shard {environ.get('SHARD')}
+* Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
+*
+***
+""")
+else:
+    print(f"""
+***
+* Current Date & Time: {timeNow}
+*
+***
+* Current Status of our server {serverHostName} currently on Shard {environ.get('SHARD')}:
+*
 * Shard 0 Sync Status:
 * Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} - Shard {local_data_shard['result']['beacon-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])}
 * Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
+*
 ***
 """)
-if ourShard > 0:
-    print(f"""
-***
-* Shard {ourShard} Sync Status:
-* Local Server  - Epoch {local_data_shard['result']['shard-chain-header']['epoch']} - Shard {local_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['shard-chain-header']['number'])}
-* Remote Server - Epoch {remote_data_shard['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}
-***
-    """)
 
 # run it all
 shardStats(ourShard)
