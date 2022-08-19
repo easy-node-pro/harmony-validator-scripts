@@ -1,16 +1,13 @@
 # stats 
-### This contains our versions of the stats.py script in our guide.
+Download our stats.py file which can run on any Harmony Validator. Update by re-downloading when necessary.
+
+## Download Script
 Pull the stats script onto your server with this command:
-- `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/stats.py`
+- `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/stats.py -O stats.py`
 
-Install requirements:
-- `pip3 install colorama`
+## Install requirements
+- `pip3 install colorama simple_term_menu`
 
-### Customizations
-Edit the script, update the variables section for your system:
-- ourShard = your shard
-- harmonyFolder = your harmony folder, we suggest ~/harmony but some may use ~/
-
-### Run stats
+## Run stats
 Run the script with:
 - `python3 stats.py`
