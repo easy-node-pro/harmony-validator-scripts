@@ -1,7 +1,6 @@
 import json
 import subprocess
 import os
-<<<<<<< HEAD
 import socket
 import dotenv
 from os import environ
@@ -65,74 +64,36 @@ remote_data_shard = json.loads(result_remote_shard.stdout)
 local_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers']
 result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 local_data_shard = json.loads(result_local_shard.stdout)
-=======
-import sys
-from colorama import Style
-from subprocess import Popen, PIPE, run
-from ast import literal_eval
-from datetime import datetime
 
-# set these two settings here
-ourShard = "3"
-harmonyFolder = '/home/serviceharmony/harmony'
+# get database sizes
+def getDBSize(ourShard, harmonyFolder) -> str:
+    checkSymlink = f'du -h {harmonyFolder}/harmony_db_{ourShard}'
+    if os.path.islink(checkSymlink):
+        harmonyFolder = os.path.relpath(checkSymlink)
+    harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
+    harmonyDBSize = harmonyDBSize.rstrip('\t')
+    return harmonyDBSize[:-countTrim]
 
-# print stuff
-class PrintStuff:
->>>>>>> d2d8c781092fa7514d667c213cb800d8de523c48
-
-    def __init__(self, reset: int=0):
-        self.reset = reset
-        self.print_stars = "*" * 93
-        self.reset_stars = self.print_stars + Style.RESET_ALL
-
-    def printStars(self) -> None:        
-        p = self.print_stars
-        if self.reset:
-            p = self.reset_stars
-        print(p)
-        
-    def stringStars(self) -> str:
-        p = self.print_stars
-        if self.reset:
-            p = self.reset_stars
-        return p
-
-    @classmethod
-    def printWhiteSpace(self) -> None:
-        print("\n" * 8)
-
-printWhiteSpace = PrintStuff.printWhiteSpace
-printStars = PrintStuff().printStars
-stringStars = PrintStuff().stringStars
-printStarsReset = PrintStuff(reset=1).printStars
-stringStarsReset = PrintStuff(reset=1).stringStars
-
+# get shard stats
 def shardStats(ourShard) -> str:
     ourUptime = subprocess.getoutput("uptime")
     ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
-    dbZeroSize = getDBSize('0')
-    if ourShard == "0":
+    dbZeroSize = getDBSize('0', harmonyFolder)
+    if ourShard == 0:
         print(f"""
-<<<<<<< HEAD
 * Harmony DB 0 Size  ::  {dbZeroSize}
 *
 * {ourVersion}
 * Uptime :: {ourUptime}
 ***
-=======
-* Uptime :: {ourUptime}\n\n Harmony DB 0 Size  ::  {dbZeroSize}
-* {ourVersion}
-{stringStars()}
->>>>>>> d2d8c781092fa7514d667c213cb800d8de523c48
         """)
     else:
         print(f"""
 *
 * Harmony DB 0 Size  ::  {dbZeroSize}
-* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard))}
+* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard), harmonyFolder)}
 *
 * {ourVersion}
-<<<<<<< HEAD
 * Uptime :: {ourUptime}
 ***
         """)
@@ -146,54 +107,11 @@ if int(ourShard) > 0:
 *
 ***
 * Current Status of our server {serverHostName} currently on Shard {environ.get('SHARD')}:
-=======
-*
-{stringStars()}
-        """)
-
-def getDBSize(ourShard) -> str:
-    harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
-    harmonyDBSize = harmonyDBSize.rstrip('\t')
-    countTrim = len(harmonyFolder) + 13
-    return harmonyDBSize[:-countTrim]
-        
-# gathering information
-timeNow = datetime.now()
-countTrim = len(harmonyFolder) + 13
-remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
-try:
-    result_remote_shard_0 = run(remote_shard_0, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    remote_data_shard_0 = json.loads(result_remote_shard_0.stdout)
-except (ValueError, KeyError, TypeError):
-    print(f'Remote Shard 0 API not responding')
-    sys.exit(1)
-remote_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', f'--node=https://api.s{ourShard}.t.hmny.io']
-try:
-    result_remote_shard = run(remote_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    remote_data_shard = json.loads(result_remote_shard.stdout)
-except (ValueError, KeyError, TypeError):
-    print(f'Remote API not responding')
-    sys.exit(1)
-local_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers']
-try:
-    result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    local_data_shard = json.loads(result_local_shard.stdout)
-except (ValueError, KeyError, TypeError):
-    print(f'Local client not running')
-    sys.exit(1)
-print(f"""
-{stringStars()}
-* Current Date & Time: {timeNow}
-*
-{stringStars()}
-* Current Status on Shard {ourShard}:
->>>>>>> d2d8c781092fa7514d667c213cb800d8de523c48
 *
 * Shard 0 Sync Status:
 * Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} (Always 1 epoch behind Remote Server) - Shard 0 not required on Shard {environ.get('SHARD')}
 * Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
 *
-<<<<<<< HEAD
 ***
 """)
 else:
@@ -213,17 +131,3 @@ else:
 
 # run it all
 shardStats(ourShard)
-=======
-{stringStars()}
-    """)
-if int(ourShard) > 0:
-    print(f"""
-* Shard {ourShard} Sync Status:
-*
-* Local Server  - Epoch {local_data_shard['result']['shard-chain-header']['epoch']} - Shard {local_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['shard-chain-header']['number'])}
-* Remote Server - Epoch {remote_data_shard['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}
-*
-{stringStars()}
-    """)
-    shardStats(ourShard)
->>>>>>> d2d8c781092fa7514d667c213cb800d8de523c48
