@@ -54,9 +54,16 @@ else:
     ourShard = str(terminal_menu.show())
     setVar(dotenv_file, "SHARD", ourShard)
 
-if environ.get("NETWORK_SWITCH"):
-    ourNetwork = environ.get("NETWORK_SWITCH")
-   
+# get database sizes
+def getDBSize(ourShard, harmonyFolder, countTrim) -> str:
+    checkSymlink = f'du -h {harmonyFolder}/harmony_db_{ourShard}'
+    if os.path.islink(checkSymlink):
+        harmonyFolder = os.path.relpath(checkSymlink)
+    harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
+    harmonyDBSize = harmonyDBSize.rstrip('\t')
+    return harmonyDBSize[:-countTrim]
+
+
 # gathering information
 countTrim = len(harmonyFolder) + 13
 remote_shard_0 = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers', '--node=https://api.s0.t.hmny.io']
@@ -68,22 +75,14 @@ remote_data_shard = json.loads(result_remote_shard.stdout)
 local_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers']
 result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 local_data_shard = json.loads(result_local_shard.stdout)
+ourShard = environ.get("SHARD")
+ourUptime = subprocess.getoutput("uptime")
+ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
+dbZeroSize = getDBSize('0', harmonyFolder, countTrim)
 
-# get database sizes
-def getDBSize(ourShard, harmonyFolder) -> str:
-    checkSymlink = f'du -h {harmonyFolder}/harmony_db_{ourShard}'
-    if os.path.islink(checkSymlink):
-        harmonyFolder = os.path.relpath(checkSymlink)
-    harmonyDBSize = subprocess.getoutput(f"du -h {harmonyFolder}/harmony_db_{ourShard}")
-    harmonyDBSize = harmonyDBSize.rstrip('\t')
-    return harmonyDBSize[:-countTrim]
 
 # get shard stats
 def shardStats() -> str:
-    ourShard = environ.get("SHARD")
-    ourUptime = subprocess.getoutput("uptime")
-    ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
-    dbZeroSize = getDBSize('0', harmonyFolder)
     if ourShard == "0":
         print(f"""
 * Harmony DB 0 Size  ::  {dbZeroSize}
@@ -96,7 +95,7 @@ def shardStats() -> str:
         print(f"""
 *
 * Harmony DB 0 Size  ::  {dbZeroSize}
-* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard), harmonyFolder)}
+* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard), harmonyFolder, countTrim)}
 *
 * {ourVersion}
 * Uptime :: {ourUptime}
@@ -105,7 +104,7 @@ def shardStats() -> str:
 
 # print it out
 
-if int(ourShard) != "0":
+if ourShard == "0":
     print(f"""
 ***
 * Current Date & Time: {timeNow}
@@ -130,6 +129,11 @@ else:
 * Shard 0 Sync Status:
 * Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} - Shard {local_data_shard['result']['beacon-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])}
 * Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
+*
+* Shard {ourShard} Sync Status:
+*
+* Local Server  - Epoch {local_data_shard['result']['shard-chain-header']['epoch']} - Shard {local_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['shard-chain-header']['number'])}
+* Remote Server - Epoch {remote_data_shard['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}
 *
 ***
 """)
