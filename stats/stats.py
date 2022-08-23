@@ -34,7 +34,11 @@ if os.path.isdir(f"{userHomeDir}/harmony"):
 elif os.path.isfile(f"{userHomeDir}/harmony"):
     harmonyFolder = f"{userHomeDir}"
 
-load_dotenv(dotenv_file)
+if os.path.isfile(f"{userHomeDir}/.easynode.env"):
+    load_dotenv(dotenv_file)
+else:
+    os.system(f"touch {userHomeDir}/.easynode.env")
+
 if environ.get("SHARD"):
     ourShard = environ.get("SHARD")
 else:
