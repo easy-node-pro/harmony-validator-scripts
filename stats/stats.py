@@ -79,7 +79,8 @@ def getDBSize(ourShard, harmonyFolder) -> str:
     return harmonyDBSize[:-countTrim]
 
 # get shard stats
-def shardStats(ourShard) -> str:
+def shardStats() -> str:
+    ourShard = environ.get("SHARD")
     ourUptime = subprocess.getoutput("uptime")
     ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
     dbZeroSize = getDBSize('0', harmonyFolder)
@@ -134,4 +135,4 @@ else:
 """)
 
 # run it all
-shardStats(ourShard)
+shardStats()
