@@ -83,7 +83,7 @@ def shardStats(ourShard) -> str:
     ourUptime = subprocess.getoutput("uptime")
     ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
     dbZeroSize = getDBSize('0', harmonyFolder)
-    if ourShard == 0:
+    if ourShard == "0":
         print(f"""
 * Harmony DB 0 Size  ::  {dbZeroSize}
 *
@@ -104,7 +104,7 @@ def shardStats(ourShard) -> str:
 
 # print it out
 
-if int(ourShard) > 0:
+if int(ourShard) != "0":
     print(f"""
 ***
 * Current Date & Time: {timeNow}
