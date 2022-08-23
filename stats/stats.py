@@ -80,30 +80,7 @@ ourUptime = subprocess.getoutput("uptime")
 ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
 dbZeroSize = getDBSize('0', harmonyFolder, countTrim)
 
-
-# get shard stats
-def shardStats() -> str:
-    if ourShard == "0":
-        print(f"""
-* Harmony DB 0 Size  ::  {dbZeroSize}
-*
-* {ourVersion}
-* Uptime :: {ourUptime}
-***
-        """)
-    else:
-        print(f"""
-*
-* Harmony DB 0 Size  ::  {dbZeroSize}
-* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard), harmonyFolder, countTrim)}
-*
-* {ourVersion}
-* Uptime :: {ourUptime}
-***
-        """)
-
 # print it out
-
 if ourShard == "0":
     print(f"""
 ***
@@ -116,6 +93,11 @@ if ourShard == "0":
 * Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} (Always 1 epoch behind Remote Server) - Shard 0 not required on Shard {environ.get('SHARD')}
 * Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
 *
+***
+* Harmony DB 0 Size  ::  {dbZeroSize}
+*
+* {ourVersion}
+* Uptime :: {ourUptime}
 ***
 """)
 else:
@@ -136,7 +118,11 @@ else:
 * Remote Server - Epoch {remote_data_shard['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard['result']['shard-chain-header']['number'])}
 *
 ***
+*
+* Harmony DB 0 Size  ::  {dbZeroSize}
+* Harmony DB {ourShard} Size  ::   {getDBSize(str(ourShard), harmonyFolder, countTrim)}
+*
+* {ourVersion}
+* Uptime :: {ourUptime}
+***
 """)
-
-# run it all
-shardStats()
