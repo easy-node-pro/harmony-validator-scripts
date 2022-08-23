@@ -6,7 +6,7 @@ Pull the stats script onto your server with this command:
 - `wget https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/stats.py -O stats.py`
 
 ## Install requirements
-- `pip3 install colorama simple_term_menu`
+- `sudo apt-get install dnsutils git python3-pip python3-dotenv -y && pip3 install colorama simple_term_menu`
 
 ## Run stats
 Run the script with:
