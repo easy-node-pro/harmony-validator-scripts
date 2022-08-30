@@ -9,6 +9,6 @@ Install & Run script:
 Run the script again later in the same directory with:
 - `python3 stats.py`
 
-## Upgrade & run stats.py
+## Upgrade & Run stats.py
 Run the following code in the folder with your stats.py script to upgrade:
 - `wget -O stats.py https://raw.githubusercontent.com/easy-node-one/harmony-validator-scripts/main/stats/stats.py && python3 stats.py`
