@@ -39,12 +39,9 @@ else:
 
 if os.path.isfile(f"{userHomeDir}/.easynode.env"):
     load_dotenv(dotenv_file)
-else:
-    os.system(f"touch {userHomeDir}/.easynode.env")
-
-if environ.get("SHARD"):
     ourShard = environ.get("SHARD")
 else:
+    os.system(f"touch {userHomeDir}/.easynode.env")
     # ask shard and record here
     os.system("clear")
     print("***")
