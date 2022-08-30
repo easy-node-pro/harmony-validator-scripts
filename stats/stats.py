@@ -81,7 +81,7 @@ ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
 dbZeroSize = getDBSize('0', harmonyFolder, countTrim)
 
 # print it out
-if ourShard == "0":
+if ourShard == 0:
     print(f"""
 ***
 * Current Date & Time: {timeNow}
