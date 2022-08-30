@@ -39,7 +39,7 @@ else:
 
 if os.path.isfile(f"{userHomeDir}/.easynode.env"):
     load_dotenv(dotenv_file)
-    ourShard = environ.get("SHARD")
+    ourShard = int(environ.get("SHARD"))
 else:
     os.system(f"touch {userHomeDir}/.easynode.env")
     # ask shard and record here
@@ -51,9 +51,8 @@ else:
     print("***")
     menuOptions = ["[0] - Shard 0", "[1] - Shard 1", "[2] - Shard 2", "[3] - Shard 3", ]
     terminal_menu = TerminalMenu(menuOptions, title="* Which Shard will this node operate on? ")
-    ourShard = str(terminal_menu.show())
-    setVar(dotenv_file, "SHARD", ourShard)
-    load_dotenv()
+    ourShard = terminal_menu.show()
+    setVar(dotenv_file, "SHARD", str(ourShard))
 
 # get database sizes
 def getDBSize(ourShard, harmonyFolder, countTrim) -> str:
