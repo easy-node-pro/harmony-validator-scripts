@@ -33,6 +33,9 @@ if os.path.isdir(f"{userHomeDir}/harmony"):
     harmonyFolder = f"{userHomeDir}/harmony"
 elif os.path.isfile(f"{userHomeDir}/harmony"):
     harmonyFolder = f"{userHomeDir}"
+else:
+    print("* Harmony binary file not found in your user directory or in ~/harmony")
+    raise SystemExit(0)
 
 if os.path.isfile(f"{userHomeDir}/.easynode.env"):
     load_dotenv(dotenv_file)
@@ -53,6 +56,7 @@ else:
     terminal_menu = TerminalMenu(menuOptions, title="* Which Shard will this node operate on? ")
     ourShard = str(terminal_menu.show())
     setVar(dotenv_file, "SHARD", ourShard)
+    load_dotenv()
 
 # get database sizes
 def getDBSize(ourShard, harmonyFolder, countTrim) -> str:
