@@ -75,7 +75,6 @@ remote_data_shard = json.loads(result_remote_shard.stdout)
 local_shard = [f'{harmonyFolder}/hmy', 'blockchain', 'latest-headers']
 result_local_shard = run(local_shard, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 local_data_shard = json.loads(result_local_shard.stdout)
-ourShard = environ.get("SHARD")
 ourUptime = subprocess.getoutput("uptime")
 ourVersion = subprocess.getoutput(f"{harmonyFolder}/harmony -V")
 dbZeroSize = getDBSize('0', harmonyFolder, countTrim)
