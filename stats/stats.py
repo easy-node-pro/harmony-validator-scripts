@@ -84,33 +84,17 @@ dbZeroSize = getDBSize('0', harmonyFolder, countTrim)
 if ourShard >= 0:
     print(f"""
 ***
+*
 * Current Date & Time: {timeNow}
 *
 ***
+*
 * Current Status of our server {serverHostName} currently on Shard {environ.get('SHARD')}:
 *
 * Shard 0 Sync Status:
 * Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} (Always 1 epoch behind Remote Server) - Shard 0 not required on Shard {environ.get('SHARD')}
 * Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
 *
-***
-* Harmony DB 0 Size  ::  {dbZeroSize}
-*
-* {ourVersion}
-* Uptime :: {ourUptime}
-***
-""")
-else:
-    print(f"""
-***
-* Current Date & Time: {timeNow}
-*
-***
-* Current Status of our server {serverHostName} currently on Shard {environ.get('SHARD')}:
-*
-* Shard 0 Sync Status:
-* Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} - Shard {local_data_shard['result']['beacon-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])}
-* Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
 *
 * Shard {ourShard} Sync Status:
 *
@@ -124,5 +108,29 @@ else:
 *
 * {ourVersion}
 * Uptime :: {ourUptime}
+*
+***
+""")
+else:
+    print(f"""
+***
+*
+* Current Date & Time: {timeNow}
+*
+***
+*
+* Current Status of our server {serverHostName} currently on Shard {environ.get('SHARD')}:
+*
+* Shard 0 Sync Status:
+* Local Server  - Epoch {local_data_shard['result']['beacon-chain-header']['epoch']} - Shard {local_data_shard['result']['beacon-chain-header']['shardID']} - Block {literal_eval(local_data_shard['result']['beacon-chain-header']['number'])}
+* Remote Server - Epoch {remote_data_shard_0['result']['shard-chain-header']['epoch']} - Shard {remote_data_shard_0['result']['shard-chain-header']['shardID']} - Block {literal_eval(remote_data_shard_0['result']['shard-chain-header']['number'])}
+*
+***
+*
+* Harmony DB 0 Size  ::  {dbZeroSize}
+*
+* {ourVersion}
+* Uptime :: {ourUptime}
+*
 ***
 """)
