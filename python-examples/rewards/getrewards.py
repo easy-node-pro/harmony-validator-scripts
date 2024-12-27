@@ -19,6 +19,8 @@ url = "https://rpc.s0.t.hmny.io"
 reserve_amount = 5
 # Set the gas price for the transactions
 gas_price = 100
+# Set the ntfy.sh url to send notifications
+ntfy_url = "https://ntfy.sh/CUSTOMIZE_THIS_URL"
 
 async def collect_rewards(address):
     # Run the collect-rewards command and capture output
@@ -142,7 +144,7 @@ async def main():
 
     if args.balance:
         rewards_message += f"\nTotal pending rewards: {round(total_pending, 4)} $ONE"
-        requests.post("https://ntfy.sh/easyrewards", data=rewards_message)
+        requests.post(f"{ntfy_url}", data=rewards_message)
     else:
         # Run the collect-rewards, get-balance, and transfer commands for each address
         for address in addresses:
@@ -170,7 +172,7 @@ async def main():
 
         rewards_message += f"\nTotal rewards transferred: {round(total_pending, 4)} $ONE"
         print(rewards_message)
-        requests.post("https://ntfy.sh/easyrewards", data=rewards_message)
+        requests.post(f"{ntfy_url}", data=rewards_message)
 
 if __name__ == "__main__":
     asyncio.run(main())
